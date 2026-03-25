@@ -1,19 +1,24 @@
 <?php
+require_once __DIR__ . '/../db.php';
+
 class Account {
-    private $pdo;
+    private PDO $pdo;
 
     public function __construct() {
-        $this->pdo = new PDO('mysql:host=db;dbname=php_test;charset=utf8', 'root', 'root123');
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
+        global $db;
+        $this->pdo = $db;
     }
 
     public function getAll() {
-        $stmt = $this->pdo->query(
-            "SELECT accounts.id, users.name, accounts.balance, accounts.user_id ,accounts.account_number
-             FROM accounts JOIN users ON accounts.user_id = users.id"
-        );
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $stmt = $this->pdo->query(
+                "SELECT accounts.id, users.name, accounts.balance, accounts.user_id ,accounts.account_number
+                 FROM accounts JOIN users ON accounts.user_id = users.id"
+            );
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $exception) {
+            return [];
+        }
     }
 
     public function create($user_id, $account_number, $balance) {
@@ -32,7 +37,11 @@ class Account {
     }
 
     public function getUsers() {
-        $stmt = $this->pdo->query("SELECT id, name FROM users");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $stmt = $this->pdo->query("SELECT id, name FROM users");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $exception) {
+            return [];
+        }
     }
 }
