@@ -14,7 +14,7 @@ $password = $_POST['password'] ?? '';
 $ip       = $_SERVER['REMOTE_ADDR'];
 
 if (empty($username) || empty($password)) {
-    $_SESSION['login_error']    = 'กรุณากรอก Username และ Password';
+    $_SESSION['login_error']    = 'ກະລຸນໃສ່ Username ແລະ Password';
     $_SESSION['login_username'] = $username;
     header('Location: index.php');
     exit;
@@ -28,7 +28,7 @@ if ($auth->login($username, $password)) {
     exit;
 }
 
-$error = 'Username หรือ Password ไม่ถูกต้อง';
+$error = 'Username ຫຼື Password ບໍ່ຖືກຕ້ອງ';
 errorHandling("Login failed for username: $username from IP: $ip Error: $error");
 $_SESSION['login_error']    = $error;
 $_SESSION['login_username'] = $username;
