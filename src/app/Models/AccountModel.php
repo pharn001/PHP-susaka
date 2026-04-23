@@ -26,7 +26,7 @@ class AccountModel {
 
     public function create(array $data): int {
         if (empty($data['user_id']) || empty($data['account_number']) || !isset($data['balance'])) {
-            throw new InvalidArgumentException('Missing required fields: user_id, account_number, balance');
+            throw new InvalidArgumentException('ຂໍ້ມູນບໍ່ຄົບ: ຈຳເປັນຕ້ອງມີ user_id, account_number, balance');
         }
 
         $stmt = $this->db->prepare(
@@ -43,7 +43,7 @@ class AccountModel {
 
     public function update(int $id, array $data): bool {
         if (!isset($data['balance'])) {
-            throw new InvalidArgumentException('Missing required field: balance');
+            throw new InvalidArgumentException('ຂາດຂໍ້ມູນສຳຄັນ: balance');
         }
 
         $stmt = $this->db->prepare('UPDATE accounts SET balance = :balance WHERE id = :id');

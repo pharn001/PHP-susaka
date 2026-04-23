@@ -1,6 +1,6 @@
 <?php
 
-class TransactionApiController extends Controller {
+class TransactionApiController extends ApiController {
     private TransactionModel $transactions;
 
     public function __construct() {
@@ -9,22 +9,30 @@ class TransactionApiController extends Controller {
     }
 
     public function index(): void {
-        ResponseHelper::success($this->transactions->all());
+        $this->handle(function (): void {
+            ResponseHelper::success($this->transactions->all());
+        });
     }
 
     public function show(string $id): void {
-        $transaction = $this->transactions->find((int) $id);
-        $transaction ? ResponseHelper::success($transaction) : ResponseHelper::notFound('Transaction not found');
+        $this->handle(function () use ($id): void {
+            $transaction = $this->transactions->find((int) $id);
+            $transaction ? ResponseHelper::success($transaction) : ResponseHelper::notFound('ບໍ່ພົບຂໍ້ມູນທຸລະກຳ');
+        });
     }
 
     public function store(): void {
-        $id = $this->transactions->create(ResponseHelper::getJsonInput());
-        ResponseHelper::success(['id' => $id], 'Transaction created successfully');
+        $this->handle(function (): void {
+            $id = $this->transactions->create(ResponseHelper::getJsonInput());
+            ResponseHelper::success(['id' => $id], 'ສ້າງທຸລະກຳສຳເລັດແລ້ວ');
+        });
     }
 
     public function destroy(string $id): void {
-        $deleted = $this->transactions->delete((int) $id);
-        $deleted ? ResponseHelper::success(['deleted' => true], 'Transaction deleted successfully')
-            : ResponseHelper::notFound('Transaction not found');
+        $this->handle(function () use ($id): void {
+            $deleted = $this->transactions->delete((int) $id);
+            $deleted ? ResponseHelper::success(['deleted' => true], 'ລຶບທຸລະກຳສຳເລັດແລ້ວ')
+                : ResponseHelper::notFound('ບໍ່ພົບຂໍ້ມູນທຸລະກຳ');
+        });
     }
 }

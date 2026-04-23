@@ -1,7 +1,7 @@
 <header class="sticky top-0 z-20 flex h-16 items-center justify-between bg-white/80 px-8 shadow-sm backdrop-blur">
     <div>
-        <h2 class="text-xl font-bold">Register User</h2>
-        <p class="text-sm text-muted">เพิ่มผู้ใช้ใหม่เข้าใช้งานระบบ</p>
+        <h2 class="text-xl font-bold">ເພີ່ມຜູ້ໃຊ້</h2>
+        <p class="text-sm text-muted">ເພີ່ມຜູ້ໃຊ້ໃໝ່ເຂົ້າໃຊ້ລະບົບ</p>
     </div>
     <div class="text-right">
         <p class="text-sm font-bold"><?= htmlspecialchars($user['username']) ?></p>
@@ -11,7 +11,7 @@
 
 <div class="p-8">
     <section class="mx-auto max-w-2xl rounded-2xl border border-stroke bg-white p-8 shadow-sm">
-        <h3 class="mb-6 text-2xl font-bold">Create New User</h3>
+        <h3 class="mb-6 text-2xl font-bold">ສ້າງຜູ້ໃຊ້ໃໝ່</h3>
 
         <?php if (!empty($error)): ?>
             <div class="mb-4 rounded-xl border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-danger">
@@ -26,10 +26,10 @@
         <?php endif; ?>
 
         <form class="space-y-4" method="post" action="/register">
-            <input class="w-full rounded-xl border border-stroke px-4 py-3" type="text" name="username" placeholder="Username" value="<?= htmlspecialchars($old['username'] ?? '') ?>">
-            <input class="w-full rounded-xl border border-stroke px-4 py-3" type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($old['email'] ?? '') ?>">
-            <input class="w-full rounded-xl border border-stroke px-4 py-3" type="password" name="password" placeholder="Password">
-            <button class="w-full rounded-xl bg-primary px-4 py-3 font-semibold text-white" type="submit">Register</button>
+            <input class="w-full rounded-xl border border-stroke px-4 py-3" type="text" name="username" placeholder="ຊື່ຜູ້ໃຊ້" value="<?= htmlspecialchars($old['username'] ?? '') ?>">
+            <input class="w-full rounded-xl border border-stroke px-4 py-3" type="email" name="email" placeholder="ອີເມວ" value="<?= htmlspecialchars($old['email'] ?? '') ?>">
+            <input class="w-full rounded-xl border border-stroke px-4 py-3" type="password" name="password" placeholder="ລະຫັດຜ່ານ">
+            <button class="w-full rounded-xl bg-primary px-4 py-3 font-semibold text-white" type="submit">ບັນທຶກ</button>
         </form>
     </section>
 </div>

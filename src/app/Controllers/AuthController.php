@@ -28,13 +28,13 @@ class AuthController extends Controller {
         $password = $_POST['password'] ?? '';
 
         if ($username === '' || $password === '') {
-            $_SESSION['flash_error'] = 'กรุณากรอก Username และ Password';
+            $_SESSION['flash_error'] = 'ກະລຸນາປ້ອນຊື່ຜູ້ໃຊ້ ແລະ ລະຫັດຜ່ານ';
             $_SESSION['flash_old'] = ['username' => $username];
             $this->redirect('/login');
         }
 
         if (!$this->authService->login($username, $password)) {
-            $_SESSION['flash_error'] = 'Username หรือ Password ไม่ถูกต้อง';
+            $_SESSION['flash_error'] = 'ຊື່ຜູ້ໃຊ້ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ';
             $_SESSION['flash_old'] = ['username' => $username];
             $this->redirect('/login');
         }
@@ -67,13 +67,13 @@ class AuthController extends Controller {
         ];
 
         if ($username === '' || $email === '' || $password === '') {
-            $_SESSION['flash_error'] = 'กรุณากรอก Username, Email และ Password';
+            $_SESSION['flash_error'] = 'ກະລຸນາປ້ອນຊື່ຜູ້ໃຊ້, ອີເມວ ແລະ ລະຫັດຜ່ານ';
             $this->redirect('/register');
         }
 
         try {
             $this->authService->register($username, $email, $password, 'user');
-            $_SESSION['flash_success'] = 'สมัครสมาชิกสำเร็จ';
+            $_SESSION['flash_success'] = 'ສ້າງຜູ້ໃຊ້ສຳເລັດແລ້ວ';
             unset($_SESSION['flash_old']);
         } catch (RuntimeException $exception) {
             $_SESSION['flash_error'] = $exception->getMessage();
@@ -104,12 +104,12 @@ class AuthController extends Controller {
         $password = trim($_POST['password'] ?? 'Admin@12345');
 
         if ($username === '' || $password === '') {
-            $_SESSION['flash_error'] = 'กรุณากรอก username และรหัสผ่านใหม่';
+            $_SESSION['flash_error'] = 'ກະລຸນາປ້ອນຊື່ admin ແລະ ລະຫັດຜ່ານໃໝ່';
             $this->redirect('/reset-admin');
         }
 
         $this->authService->resetAdmin($username, $password);
-        $_SESSION['flash_success'] = "รีเซ็ตรหัสผ่านของ {$username} เรียบร้อยแล้ว";
+        $_SESSION['flash_success'] = "ປ່ຽນລະຫັດຜ່ານຂອງ {$username} ສຳເລັດແລ້ວ";
         $_SESSION['flash_credentials'] = [
             'username' => $username,
             'password' => $password,

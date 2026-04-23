@@ -32,7 +32,7 @@ class AuthService {
         ]);
 
         if ($check->fetch()) {
-            throw new RuntimeException('Username หรือ Email นี้ถูกใช้งานแล้ว');
+            throw new RuntimeException('ຊື່ຜູ້ໃຊ້ ຫຼື ອີເມວນີ້ຖືກໃຊ້ແລ້ວ');
         }
 
         $stmt = $this->db->prepare(

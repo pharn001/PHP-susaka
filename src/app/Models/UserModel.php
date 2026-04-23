@@ -16,11 +16,11 @@ class UserModel {
 
     public function create(array $data): int {
         if (empty($data['name']) || empty($data['email']) || empty($data['password'])) {
-            throw new InvalidArgumentException('Missing required fields: name, email, password');
+            throw new InvalidArgumentException('ຂໍ້ມູນບໍ່ຄົບ: ຈຳເປັນຕ້ອງມີ name, email, password');
         }
 
         if ($this->emailExists($data['email'])) {
-            throw new InvalidArgumentException('Email already exists');
+            throw new InvalidArgumentException('ອີເມວນີ້ຖືກໃຊ້ແລ້ວ');
         }
 
         $stmt = $this->db->prepare(
@@ -47,7 +47,7 @@ class UserModel {
 
         if (isset($data['email'])) {
             if ($this->emailExists($data['email'], $id)) {
-                throw new InvalidArgumentException('Email already exists');
+                throw new InvalidArgumentException('ອີເມວນີ້ຖືກໃຊ້ແລ້ວ');
             }
             $fields[] = 'email = :email';
             $params['email'] = $data['email'];
@@ -64,7 +64,7 @@ class UserModel {
         }
 
         if ($fields === []) {
-            throw new InvalidArgumentException('No fields to update');
+            throw new InvalidArgumentException('ບໍ່ມີຂໍ້ມູນໃຫ້ອັບເດດ');
         }
 
         $stmt = $this->db->prepare('UPDATE users SET ' . implode(', ', $fields) . ' WHERE id = :id');

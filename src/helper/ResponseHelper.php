@@ -1,5 +1,5 @@
 <?php
-// ResponseHelper.php
+// ຕົວຊ່ວຍສົ່ງຄຳຕອບ JSON ກັບໄປຫາ client
 class ResponseHelper {
     public static function send($data, $statusCode = 200) {
         http_response_code($statusCode);
@@ -8,7 +8,7 @@ class ResponseHelper {
         exit;
     }
     
-    public static function success($data = null, $message = 'Success') {
+    public static function success($data = null, $message = 'ສຳເລັດ') {
         self::send([
             'success' => true,
             'message' => $message,
@@ -23,12 +23,12 @@ class ResponseHelper {
         ], $statusCode);
     }
     
-    public static function notFound($message = 'Resource not found') {
+    public static function notFound($message = 'ບໍ່ພົບຂໍ້ມູນ') {
         self::error($message, 404);
     }
     
     public static function methodNotAllowed() {
-        self::error('Method Not Allowed', 405);
+        self::error('ບໍ່ອະນຸຍາດໃຫ້ໃຊ້ method ນີ້', 405);
     }
     
     public static function getJsonInput() {

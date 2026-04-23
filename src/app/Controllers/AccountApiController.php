@@ -1,6 +1,6 @@
 <?php
 
-class AccountApiController extends Controller {
+class AccountApiController extends ApiController {
     private AccountModel $accounts;
 
     public function __construct() {
@@ -9,27 +9,37 @@ class AccountApiController extends Controller {
     }
 
     public function index(): void {
-        ResponseHelper::success($this->accounts->all());
+        $this->handle(function (): void {
+            ResponseHelper::success($this->accounts->all());
+        });
     }
 
     public function show(string $id): void {
-        $account = $this->accounts->find((int) $id);
-        $account ? ResponseHelper::success($account) : ResponseHelper::notFound('Account not found');
+        $this->handle(function () use ($id): void {
+            $account = $this->accounts->find((int) $id);
+            $account ? ResponseHelper::success($account) : ResponseHelper::notFound('ບໍ່ພົບຂໍ້ມູນບັນຊີ');
+        });
     }
 
     public function store(): void {
-        $id = $this->accounts->create(ResponseHelper::getJsonInput());
-        ResponseHelper::success(['id' => $id], 'Account created successfully');
+        $this->handle(function (): void {
+            $id = $this->accounts->create(ResponseHelper::getJsonInput());
+            ResponseHelper::success(['id' => $id], 'ສ້າງບັນຊີສຳເລັດແລ້ວ');
+        });
     }
 
     public function update(string $id): void {
-        $updated = $this->accounts->update((int) $id, ResponseHelper::getJsonInput());
-        ResponseHelper::success(['updated' => $updated], 'Account updated successfully');
+        $this->handle(function () use ($id): void {
+            $updated = $this->accounts->update((int) $id, ResponseHelper::getJsonInput());
+            ResponseHelper::success(['updated' => $updated], 'ອັບເດດບັນຊີສຳເລັດແລ້ວ');
+        });
     }
 
     public function destroy(string $id): void {
-        $deleted = $this->accounts->delete((int) $id);
-        $deleted ? ResponseHelper::success(['deleted' => true], 'Account deleted successfully')
-            : ResponseHelper::notFound('Account not found');
+        $this->handle(function () use ($id): void {
+            $deleted = $this->accounts->delete((int) $id);
+            $deleted ? ResponseHelper::success(['deleted' => true], 'ລຶບບັນຊີສຳເລັດແລ້ວ')
+                : ResponseHelper::notFound('ບໍ່ພົບຂໍ້ມູນບັນຊີ');
+        });
     }
 }

@@ -5,6 +5,7 @@ $dbName = getenv('DB_DATABASE') ?: 'posdb';
 $dbUser = getenv('DB_USERNAME') ?: 'root';
 $dbPass = getenv('DB_PASSWORD') ?: 'root123';
 
+// ຟັງຊັນນີ້ໃຊ້ສຳລັບສ້າງ schema ເບື້ອງຕົ້ນອັດຕະໂນມັດ
 // function bootstrapSchema(PDO $db): void {
 //     $statements = [
 //         "CREATE TABLE IF NOT EXISTS users (
@@ -55,8 +56,9 @@ try {
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ]
     );
+    // ເປີດໃຊ້ຖ້າຕ້ອງການໃຫ້ລະບົບສ້າງຕາຕະລາງອັດຕະໂນມັດ
     // bootstrapSchema($db);
 } catch (PDOException $exception) {
     http_response_code(500);
-    exit('Database connection failed.');
+    exit('ເຊື່ອມຕໍ່ຖານຂໍ້ມູນບໍ່ສຳເລັດ');
 }

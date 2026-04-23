@@ -1,7 +1,7 @@
 <div class="flex min-h-screen items-center justify-center px-4 py-10">
     <section class="w-full max-w-xl rounded-3xl border border-stroke bg-white p-8 shadow-lg">
-        <h1 class="text-2xl font-bold">Reset Admin Password</h1>
-        <p class="mt-2 text-sm text-muted">หน้ารีเซ็ตชั่วคราวสำหรับตั้งรหัส admin ใหม่ในเครื่องนี้</p>
+        <h1 class="text-2xl font-bold">ປ່ຽນລະຫັດຜ່ານ Admin</h1>
+        <p class="mt-2 text-sm text-muted">ໜ້າຊົ່ວຄາວສຳລັບຕັ້ງລະຫັດ admin ໃໝ່ໃນເຄື່ອງນີ້</p>
 
         <?php if (!empty($error)): ?>
             <div class="mt-4 rounded-xl border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-danger">
@@ -17,15 +17,15 @@
 
         <?php if (!empty($credentials)): ?>
             <div class="mt-4 rounded-xl bg-slate-100 px-4 py-3 text-sm text-slate-700">
-                Username: <strong><?= htmlspecialchars($credentials['username']) ?></strong>
-                Password: <strong><?= htmlspecialchars($credentials['password']) ?></strong>
+                ຊື່ຜູ້ໃຊ້: <strong><?= htmlspecialchars($credentials['username']) ?></strong>
+                ລະຫັດຜ່ານ: <strong><?= htmlspecialchars($credentials['password']) ?></strong>
             </div>
         <?php endif; ?>
 
         <form class="mt-6 space-y-4" method="post" action="/reset-admin">
-            <input class="w-full rounded-xl border border-stroke px-4 py-3" type="text" name="username" placeholder="Admin Username" value="admin">
-            <input class="w-full rounded-xl border border-stroke px-4 py-3" type="text" name="password" placeholder="New Password" value="Admin@12345">
-            <button class="w-full rounded-xl bg-primary px-4 py-3 font-semibold text-white" type="submit">Reset Password</button>
+            <input class="w-full rounded-xl border border-stroke px-4 py-3" type="text" name="username" placeholder="ຊື່ admin" value="admin">
+            <input class="w-full rounded-xl border border-stroke px-4 py-3" type="text" name="password" placeholder="ລະຫັດຜ່ານໃໝ່" value="Admin@12345">
+            <button class="w-full rounded-xl bg-primary px-4 py-3 font-semibold text-white" type="submit">ປ່ຽນລະຫັດຜ່ານ</button>
         </form>
     </section>
 </div>

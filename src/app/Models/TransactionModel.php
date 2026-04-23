@@ -23,7 +23,7 @@ class TransactionModel {
     public function create(array $data): int {
         foreach (['account_id', 'type', 'amount', 'user_id'] as $field) {
             if (!isset($data[$field]) || $data[$field] === '') {
-                throw new InvalidArgumentException("Missing required field: {$field}");
+                throw new InvalidArgumentException("ຂາດຂໍ້ມູນສຳຄັນ: {$field}");
             }
         }
 

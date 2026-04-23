@@ -16,23 +16,23 @@ $activeNavItemClass = 'flex items-center gap-3 rounded-lg bg-white px-4 py-3 fon
     <nav class="flex-1 space-y-2">
         <a class="<?= $activePage === 'dashboard' ? $activeNavItemClass : $navItemClass ?>" href="/">
             <span class="material-symbols-outlined">dashboard</span>
-            <span class="text-sm">Dashboard</span>
+            <span class="text-sm">ໜ້າຫຼັກ</span>
         </a>
 
         <?php if ($isAdmin): ?>
             <a class="<?= $activePage === 'accounts' ? $activeNavItemClass : $navItemClass ?>" href="/accounts">
                 <span class="material-symbols-outlined">account_balance</span>
-                <span class="text-sm">Accounts</span>
+                <span class="text-sm">ບັນຊີ</span>
             </a>
             <a class="<?= $activePage === 'register' ? $activeNavItemClass : $navItemClass ?>" href="/register">
                 <span class="material-symbols-outlined">person_add</span>
-                <span class="text-sm">Register User</span>
+                <span class="text-sm">ເພີ່ມຜູ້ໃຊ້</span>
             </a>
         <?php endif; ?>
     </nav>
 
     <a class="mt-auto flex items-center gap-3 rounded-lg px-4 py-3 text-[#464555] transition-all hover:bg-white hover:text-[#3525cd]" href="/logout">
         <span class="material-symbols-outlined">logout</span>
-        <span class="text-sm font-semibold">Logout</span>
+        <span class="text-sm font-semibold">ອອກຈາກລະບົບ</span>
     </a>
 </aside>
