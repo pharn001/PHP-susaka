@@ -1,0 +1,120 @@
+<?php
+
+class AuthController extends Controller {
+    private AuthService $authService;
+
+    public function __construct() {
+        global $db;
+        $this->authService = new AuthService($db);
+    }
+
+    public function showLogin(): void {
+        if (AuthService::check()) {
+            $this->redirect('/');
+        }
+
+        $this->render('auth/login', [
+            'title' => 'Login',
+            'layoutMode' => 'guest',
+            'error' => $_SESSION['flash_error'] ?? '',
+            'old' => $_SESSION['flash_old'] ?? [],
+        ]);
+
+        unset($_SESSION['flash_error'], $_SESSION['flash_old']);
+    }
+
+    public function login(): void {
+        $username = trim($_POST['username'] ?? '');
+        $password = $_POST['password'] ?? '';
+
+        if ($username === '' || $password === '') {
+            $_SESSION['flash_error'] = 'กรุณากรอก Username และ Password';
+            $_SESSION['flash_old'] = ['username' => $username];
+            $this->redirect('/login');
+        }
+
+        if (!$this->authService->login($username, $password)) {
+            $_SESSION['flash_error'] = 'Username หรือ Password ไม่ถูกต้อง';
+            $_SESSION['flash_old'] = ['username' => $username];
+            $this->redirect('/login');
+        }
+
+        $this->redirect('/');
+    }
+
+    public function showRegister(): void {
+        $this->render('auth/register', [
+            'title' => 'Register User',
+            'activePage' => 'register',
+            'user' => AuthService::user(),
+            'isAdmin' => true,
+            'error' => $_SESSION['flash_error'] ?? '',
+            'success' => $_SESSION['flash_success'] ?? '',
+            'old' => $_SESSION['flash_old'] ?? [],
+        ]);
+
+        unset($_SESSION['flash_error'], $_SESSION['flash_success'], $_SESSION['flash_old']);
+    }
+
+    public function register(): void {
+        $username = trim($_POST['username'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $password = $_POST['password'] ?? '';
+
+        $_SESSION['flash_old'] = [
+            'username' => $username,
+            'email' => $email,
+        ];
+
+        if ($username === '' || $email === '' || $password === '') {
+            $_SESSION['flash_error'] = 'กรุณากรอก Username, Email และ Password';
+            $this->redirect('/register');
+        }
+
+        try {
+            $this->authService->register($username, $email, $password, 'user');
+            $_SESSION['flash_success'] = 'สมัครสมาชิกสำเร็จ';
+            unset($_SESSION['flash_old']);
+        } catch (RuntimeException $exception) {
+            $_SESSION['flash_error'] = $exception->getMessage();
+        }
+
+        $this->redirect('/register');
+    }
+
+    public function logout(): void {
+        $this->authService->logout();
+        $this->redirect('/login');
+    }
+
+    public function showResetAdmin(): void {
+        $this->render('auth/reset_admin', [
+            'title' => 'Reset Admin Password',
+            'layoutMode' => 'guest',
+            'error' => $_SESSION['flash_error'] ?? '',
+            'success' => $_SESSION['flash_success'] ?? '',
+            'credentials' => $_SESSION['flash_credentials'] ?? [],
+        ]);
+
+        unset($_SESSION['flash_error'], $_SESSION['flash_success'], $_SESSION['flash_credentials']);
+    }
+
+    public function resetAdmin(): void {
+        $username = trim($_POST['username'] ?? 'admin');
+        $password = trim($_POST['password'] ?? 'Admin@12345');
+
+        if ($username === '' || $password === '') {
+            $_SESSION['flash_error'] = 'กรุณากรอก username และรหัสผ่านใหม่';
+            $this->redirect('/reset-admin');
+        }
+
+        $this->authService->resetAdmin($username, $password);
+        $_SESSION['flash_success'] = "รีเซ็ตรหัสผ่านของ {$username} เรียบร้อยแล้ว";
+        $_SESSION['flash_credentials'] = [
+            'username' => $username,
+            'password' => $password,
+        ];
+
+        $this->redirect('/reset-admin');
+    }
+}

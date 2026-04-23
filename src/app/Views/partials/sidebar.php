@@ -1,8 +1,4 @@
 <?php
-$activePage = $activePage ?? 'dashboard';
-$basePath = $basePath ?? '';
-$isAdmin = $isAdmin ?? false;
-
 $navItemClass = 'flex items-center gap-3 rounded-lg px-4 py-3 text-[#464555] transition-all hover:bg-white hover:text-[#3525cd]';
 $activeNavItemClass = 'flex items-center gap-3 rounded-lg bg-white px-4 py-3 font-bold text-[#3525cd]';
 ?>
@@ -18,25 +14,24 @@ $activeNavItemClass = 'flex items-center gap-3 rounded-lg bg-white px-4 py-3 fon
     </div>
 
     <nav class="flex-1 space-y-2">
-        <a class="<?= $activePage === 'dashboard' ? $activeNavItemClass : $navItemClass ?>" href="<?= htmlspecialchars($basePath) ?>index.php">
+        <a class="<?= $activePage === 'dashboard' ? $activeNavItemClass : $navItemClass ?>" href="/">
             <span class="material-symbols-outlined">dashboard</span>
             <span class="text-sm">Dashboard</span>
         </a>
 
         <?php if ($isAdmin): ?>
-            <a class="<?= $activePage === 'accounts' ? $activeNavItemClass : $navItemClass ?>" href="<?= htmlspecialchars($basePath) ?>account/index.php">
+            <a class="<?= $activePage === 'accounts' ? $activeNavItemClass : $navItemClass ?>" href="/accounts">
                 <span class="material-symbols-outlined">account_balance</span>
                 <span class="text-sm">Accounts</span>
             </a>
-
-            <a class="<?= $activePage === 'register' ? $activeNavItemClass : $navItemClass ?>" href="<?= htmlspecialchars($basePath) ?>register/index.php">
+            <a class="<?= $activePage === 'register' ? $activeNavItemClass : $navItemClass ?>" href="/register">
                 <span class="material-symbols-outlined">person_add</span>
                 <span class="text-sm">Register User</span>
             </a>
         <?php endif; ?>
     </nav>
 
-    <a class="mt-auto flex items-center gap-3 rounded-lg px-4 py-3 text-[#464555] transition-all hover:bg-white hover:text-[#3525cd]" href="<?= htmlspecialchars($basePath) ?>logout.php">
+    <a class="mt-auto flex items-center gap-3 rounded-lg px-4 py-3 text-[#464555] transition-all hover:bg-white hover:text-[#3525cd]" href="/logout">
         <span class="material-symbols-outlined">logout</span>
         <span class="text-sm font-semibold">Logout</span>
     </a>
