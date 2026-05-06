@@ -653,22 +653,45 @@ function saveNote() {
 }
 
 // ============ ORDERS ============
-function holdOrder() {
+async function holdOrder() {
   if (state.cart.length === 0) { showToast('Cart is empty', 'error'); return; }
-  const order = {
-    id: ++state.orderCounter,
-    items: JSON.parse(JSON.stringify(state.cart)),
-    time: timeStr(),
-    date: dateStr(),
-    totals: calcTotals(),
-    discount: { ...state.discount },
+  
+  const totals = calcTotals();
+  const orderPayload = {
+    items: state.cart,
+    totals,
+    discount: state.discount,
+    taxRate: state.taxRate,
+    status: 'held'
   };
-  state.heldOrders.push(order);
-  state.cart = [];
-  state.discount = { type: 'percent', value: 0 };
-  renderCart();
-  updateHeldBadge();
-  showToast(`Order #${order.id} held`, 'success');
+
+  try {
+    const res = await fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderPayload)
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error);
+
+    const order = {
+      id: data.data.order_number,
+      items: JSON.parse(JSON.stringify(state.cart)),
+      time: timeStr(),
+      date: dateStr(),
+      totals,
+      discount: { ...state.discount },
+    };
+    state.heldOrders.push(order);
+    state.cart = [];
+    state.discount = { type: 'percent', value: 0 };
+    renderCart();
+    updateHeldBadge();
+    showToast(`Order #${order.id} held`, 'success');
+  } catch (err) {
+    console.error(err);
+    showToast('Failed to hold order', 'error');
+  }
 }
 
 function recallOrder(id) {
@@ -691,26 +714,48 @@ function deleteHeldOrder(id) {
   showToast('Held order deleted', 'info');
 }
 
-function completeOrder(payment) {
+async function completeOrder(payment) {
   const totals = calcTotals();
-  const order = {
-    id: ++state.orderCounter,
-    items: JSON.parse(JSON.stringify(state.cart)),
-    time: timeStr(),
-    date: dateStr(),
+  const orderPayload = {
+    items: state.cart,
     totals,
-    discount: { ...state.discount },
+    discount: state.discount,
+    taxRate: state.taxRate,
     payment,
+    status: 'completed'
   };
-  state.completedOrders.unshift(order);
-  state.lastReceipt = order;
-  state.cart = [];
-  state.discount = { type: 'percent', value: 0 };
-  playSound('success');
-  renderCart();
-  closeModal('checkoutModal');
-  showReceipt(order);
-  showToast(`Payment successful — #${order.id}`, 'success');
+
+  try {
+    const res = await fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderPayload)
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error);
+
+    const order = {
+      id: data.data.order_number,
+      items: JSON.parse(JSON.stringify(state.cart)),
+      time: timeStr(),
+      date: dateStr(),
+      totals,
+      discount: { ...state.discount },
+      payment,
+    };
+    state.completedOrders.unshift(order);
+    state.lastReceipt = order;
+    state.cart = [];
+    state.discount = { type: 'percent', value: 0 };
+    playSound('success');
+    renderCart();
+    closeModal('checkoutModal');
+    showReceipt(order);
+    showToast(`Payment successful — #${order.id}`, 'success');
+  } catch (err) {
+    console.error(err);
+    showToast('Failed to save order', 'error');
+  }
 }
 
 // ============ CHECKOUT ============

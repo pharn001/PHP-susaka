@@ -21,3 +21,4 @@ $router->delete('/api/transactions/{id}', 'TransactionApiController@destroy');
 
 $router->get('/api/categories', 'CategoryApiController@index');
 $router->get('/api/products', 'ProductApiController@index');
+$router->post('/api/orders', 'OrderApiController@store');
