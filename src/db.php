@@ -1,7 +1,7 @@
 <?php
 
 $dbHost = getenv('DB_HOST') ?: 'db';
-$dbName = getenv('DB_DATABASE') ?: 'posdb';
+$dbName = getenv('DB_DATABASE') ?: 'php_test';
 $dbUser = getenv('DB_USERNAME') ?: 'root';
 $dbPass = getenv('DB_PASSWORD') ?: 'root123';
 

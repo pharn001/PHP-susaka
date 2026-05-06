@@ -18,3 +18,6 @@ $router->get('/api/transactions', 'TransactionApiController@index');
 $router->get('/api/transactions/{id}', 'TransactionApiController@show');
 $router->post('/api/transactions', 'TransactionApiController@store');
 $router->delete('/api/transactions/{id}', 'TransactionApiController@destroy');
+
+$router->get('/api/categories', 'CategoryApiController@index');
+$router->get('/api/products', 'ProductApiController@index');
