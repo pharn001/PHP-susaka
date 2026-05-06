@@ -7,7 +7,7 @@ class TransactionApiController extends ApiController {
         global $db;
         $this->transactions = new TransactionModel($db);
     }
-
+  
     public function index(): void {
         $this->handle(function (): void {
             ResponseHelper::success($this->transactions->all());
